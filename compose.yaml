@@ -1,0 +1,24 @@
+services:
+  kibonga_app:
+    image: node:18-alpine
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 127.0.0.1:3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_HOST: kibonga_mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: kibongaDB
+  kibonga_mysql:
+    image: mysql:8.0
+    volumes: 
+      - kibonga_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: kibongaDB
+
+volumes:
+  kibonga_data:
